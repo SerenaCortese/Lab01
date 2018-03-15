@@ -32,6 +32,13 @@ public class ParoleController {
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
     
+    @FXML // fx:id="txtTempo"
+    private TextArea txtTempo; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="btnCancella"
+    private Button btnCancella; // Value injected by FXMLLoader
+
+    
     @FXML
     private Button btnReset;
 
@@ -40,20 +47,43 @@ public class ParoleController {
 
     @FXML
     void doInsert(ActionEvent event) {
-    	// TODO
+    	long start = System.nanoTime();
+    	String s = txtParola.getText();
+    	elenco.addParola(s);
+    	elenco.getElenco();
+    	txtResult.setText(elenco.toString());
+    	txtParola.clear();
+    	long stop = System.nanoTime();
+    	long tempo= stop-start;
+    	txtTempo.setText("Tempo di doInsert: "+String.valueOf(tempo)+"\n");
     }
     
     @FXML
     void doReset(ActionEvent event) {
-    	// TODO
+    	long start = System.nanoTime();
+    	elenco.reset();
+    	txtResult.clear();
+    	long stop = System.nanoTime();
+    	long tempo= stop-start;
+    	txtTempo.appendText("Tempo di doReset: "+String.valueOf(tempo)+"\n");;
     }
+    
+    @FXML
+    void doCancella(ActionEvent event) {
+    	long start = System.nanoTime();
+    	elenco.cancellaParola(txtResult.getSelectedText());
+    	txtResult.setText(elenco.toString());
+    	long stop = System.nanoTime();
+    	long tempo= stop-start;
+    	txtTempo.appendText("Tempo di doCancella: "+String.valueOf(tempo)+ "\n");;
+    }
+    
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert txtParola != null : "fx:id=\"txtParola\" was not injected: check your FXML file 'Parole.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Parole.fxml'.";
         assert btnInserisci != null : "fx:id=\"btnInserisci\" was not injected: check your FXML file 'Parole.fxml'.";
-
         elenco = new Parole() ;
         
     }
